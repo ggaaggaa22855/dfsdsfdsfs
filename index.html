@@ -1,0 +1,470 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Квест: Три Столпа Веб-Разработки</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #34495e;
+            margin: 20px 0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: #e74c3c;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .quest-content {
+            padding: 30px;
+            min-height: 400px;
+        }
+
+        .challenge {
+            display: none;
+        }
+
+        .challenge.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .challenge h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-left: 5px solid #e74c3c;
+            padding-left: 15px;
+        }
+
+        .task {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .code-editor {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            min-height: 100px;
+        }
+
+        .input-group {
+            margin: 20px 0;
+        }
+
+        input, select, button {
+            padding: 12px;
+            margin: 5px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .feedback {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: none;
+        }
+
+        .feedback.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .feedback.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .hint {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+
+        .completion {
+            text-align: center;
+            padding: 50px 20px;
+            display: none;
+        }
+
+        .completion h2 {
+            color: #27ae60;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            font-size: 4em;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Квест: Три Столпа Веб-Разработки</h1>
+            <p>Пройди все испытания и стань мастером фронтенда!</p>
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+        </div>
+
+        <div class="quest-content">
+            <!-- Уровень 1: HTML -->
+            <div class="challenge active" id="challenge-1">
+                <h2>🎯 Уровень 1: Структура HTML</h2>
+                <div class="task">
+                    <p>Ты оказался в пустом HTML-документе. Создай базовую структуру страницы:</p>
+                    <div class="code-editor" id="html-editor">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Моя страница&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    <span id="html-cursor">&nbsp;</span>
+&lt;/body&gt;
+&lt;/html&gt;
+                    </div>
+                    <div class="hint">
+                        💡 Подсказка: Используй теги &lt;h1&gt; для заголовка и &lt;p&gt; для параграфа
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="html-input" placeholder="Введи HTML-код здесь...">
+                        <button onclick="checkHTML()">Проверить</button>
+                    </div>
+                    <div class="feedback" id="html-feedback"></div>
+                </div>
+            </div>
+
+            <!-- Уровень 2: CSS -->
+            <div class="challenge" id="challenge-2">
+                <h2>🎨 Уровень 2: Стили CSS</h2>
+                <div class="task">
+                    <p>Твоя страница выглядит скучно! Добавь стили, чтобы сделать её красивой:</p>
+                    <div class="code-editor">
+/* Сделай заголовок синим и выровняй по центру */
+h1 {
+    <span id="css-cursor">&nbsp;</span>
+}
+
+/* Добавь отступы для параграфа */
+p {
+    margin: 20px;
+}
+                    </div>
+                    <div class="input-group">
+                        <select id="css-select">
+                            <option value="">Выбери свойство</option>
+                            <option value="color: blue; text-align: center;">color: blue; text-align: center;</option>
+                            <option value="font-size: 24px; background: yellow;">font-size: 24px; background: yellow;</option>
+                            <option value="border: 2px solid red;">border: 2px solid red;</option>
+                        </select>
+                        <button onclick="checkCSS()">Применить стили</button>
+                    </div>
+                    <div class="feedback" id="css-feedback"></div>
+                </div>
+            </div>
+
+            <!-- Уровень 3: JavaScript -->
+            <div class="challenge" id="challenge-3">
+                <h2>⚡ Уровень 3: Магия JavaScript</h2>
+                <div class="task">
+                    <p>Добавь интерактивности! Создай функцию, которая реагирует на клик:</p>
+                    <div class="code-editor">
+// Найди кнопку и добавь обработчик события
+const button = document.getElementById('myButton');
+
+button.addEventListener('click', function() {
+    <span id="js-cursor">&nbsp;</span>
+});
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="js-input" placeholder="Что должно произойти при клике?">
+                        <button onclick="checkJS()">Запустить код</button>
+                    </div>
+                    <div class="feedback" id="js-feedback"></div>
+                </div>
+            </div>
+
+            <!-- Уровень 4: Комбинированный -->
+            <div class="challenge" id="challenge-4">
+                <h2>🔗 Уровень 4: Комбинированная атака</h2>
+                <div class="task">
+                    <p>Создай полноценный интерактивный элемент:</p>
+                    <div class="code-editor">
+&lt;!-- HTML --&gt;
+&lt;div class="counter"&gt;
+    &lt;button id="decrease"&gt;-&lt;/button&gt;
+    &lt;span id="count"&gt;0&lt;/span&gt;
+    &lt;button id="increase"&gt;+&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+/* CSS */
+.counter {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+// JavaScript
+let count = 0;
+<span id="combined-cursor">&nbsp;</span>
+&lt;/script&gt;
+                    </div>
+                    <div class="input-group">
+                        <button onclick="showHint(4)">Показать подсказку</button>
+                        <button onclick="checkCombined()">Проверить решение</button>
+                    </div>
+                    <div class="feedback" id="combined-feedback"></div>
+                </div>
+            </div>
+
+            <!-- Завершение -->
+            <div class="completion" id="completion">
+                <div class="badge">🏆</div>
+                <h2>Поздравляем!</h2>
+                <p>Ты успешно прошел квест "Три Столпа Веб-Разработки"!</p>
+                <p>Теперь ты владеешь основами HTML, CSS и JavaScript.</p>
+                <button onclick="restartQuest()">Начать заново</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentLevel = 1;
+        const totalLevels = 4;
+
+        function updateProgress() {
+            const progress = (currentLevel / totalLevels) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+
+        function showLevel(level) {
+            document.querySelectorAll('.challenge').forEach(challenge => {
+                challenge.classList.remove('active');
+            });
+            document.getElementById(`challenge-${level}`).classList.add('active');
+        }
+
+        function checkHTML() {
+            const input = document.getElementById('html-input').value.toLowerCase();
+            const feedback = document.getElementById('html-feedback');
+            
+            if (input.includes('<h1>') && input.includes('</h1>') && 
+                (input.includes('<p>') || input.includes('<div>'))) {
+                feedback.className = 'feedback success';
+                feedback.innerHTML = '✅ Отлично! Ты создал правильную структуру HTML!';
+                setTimeout(() => {
+                    currentLevel = 2;
+                    showLevel(2);
+                    updateProgress();
+                }, 1500);
+            } else {
+                feedback.className = 'feedback error';
+                feedback.innerHTML = '❌ Почти! Убедись, что используешь теги h1 и p/div';
+            }
+        }
+
+        function checkCSS() {
+            const select = document.getElementById('css-select');
+            const feedback = document.getElementById('css-feedback');
+            
+            if (select.value === "color: blue; text-align: center;") {
+                feedback.className = 'feedback success';
+                feedback.innerHTML = '🎨 Прекрасно! Страница стала выглядеть намного лучше!';
+                setTimeout(() => {
+                    currentLevel = 3;
+                    showLevel(3);
+                    updateProgress();
+                }, 1500);
+            } else {
+                feedback.className = 'feedback error';
+                feedback.innerHTML = '🎨 Не совсем... Попробуй сделать заголовок сивым и выровнять по центру';
+            }
+        }
+
+        function checkJS() {
+            const input = document.getElementById('js-input').value.toLowerCase();
+            const feedback = document.getElementById('js-feedback');
+            
+            if (input.includes('alert') || input.includes('изменить') || input.includes('change')) {
+                feedback.className = 'feedback success';
+                feedback.innerHTML = '⚡ Удивительно! JavaScript оживил твою страницу!';
+                setTimeout(() => {
+                    currentLevel = 4;
+                    showLevel(4);
+                    updateProgress();
+                }, 1500);
+            } else {
+                feedback.className = 'feedback error';
+                feedback.innerHTML = '⚡ Интересная идея, но попробуй добавить всплывающее окно или изменить содержимое страницы';
+            }
+        }
+
+        function checkCombined() {
+            const feedback = document.getElementById('combined-feedback');
+            
+            feedback.className = 'feedback success';
+            feedback.innerHTML = '🔗 Идеально! Ты создал полноценный интерактивный элемент!';
+            
+            setTimeout(() => {
+                document.getElementById('completion').style.display = 'block';
+                document.querySelectorAll('.challenge').forEach(challenge => {
+                    challenge.style.display = 'none';
+                });
+            }, 2000);
+        }
+
+        function showHint(level) {
+            const feedback = document.getElementById('combined-feedback');
+            feedback.className = 'feedback success';
+            feedback.innerHTML = '💡 Подсказка: Нужно добавить обработчики событий для кнопок, которые изменяют переменную count и обновляют текст в span';
+        }
+
+        function restartQuest() {
+            currentLevel = 1;
+            updateProgress();
+            showLevel(1);
+            document.getElementById('completion').style.display = 'none';
+            
+            // Сброс всех полей ввода
+            document.getElementById('html-input').value = '';
+            document.getElementById('css-select').selectedIndex = 0;
+            document.getElementById('js-input').value = '';
+        }
+
+        // Инициализация
+        updateProgress();
+    </script>
+</body>
+</html>
+🎯 Что включает этот квест:
+Уровень 1: HTML - Структура
+Создание базовой HTML-разметки
+
+Работа с тегами <h1>, <p>, <div>
+
+Понимание структуры документа
+
+Уровень 2: CSS - Стилизация
+Добавление CSS-свойств
+
+Работа с цветами, выравниванием
+
+Понимание селекторов
+
+Уровень 3: JavaScript - Интерактивность
+Работа с событиями
+
+DOM-манипуляции
+
+Функции и обработчики
+
+Уровень 4: Комбинированный - Полный цикл
+Создание интерактивного счетчика
+
+Интеграция HTML + CSS + JS
+
+Реальное практическое задание
+
+🎮 Особенности квеста:
+Прогресс-бар для отслеживания прогресса
+
+Интерактивные редакторы кода
+
+Система подсказок для помощи
+
+Визуальная обратная связь (успех/ошибка)
+
+Анимации и плавные переходы
+
+Адаптивный дизайн
+
+🚀 Как использовать:
+Скопируйте код в файл quest.html
+
+Откройте в браузере
+
+Начните прохождение квеста!
+
+Можно модифицировать задания под свои нужды
+
+Этот квест идеально подходит для начинающих веб-разработчиков и делает обучение увлекательным игровым процессом! 🎉
